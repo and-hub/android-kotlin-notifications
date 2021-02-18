@@ -30,7 +30,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
      *
      * @param remoteMessage Object representing the message received from Firebase Cloud Messaging.
      */
-    // [START receive_message]
     override fun onMessageReceived(remoteMessage: RemoteMessage?) {
         // Not getting messages here? See why this may be: https://goo.gl/39bRNJ
         Log.d(TAG, "From: ${remoteMessage?.from}")
@@ -40,11 +39,13 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
             Log.d(TAG, "Message data payload: ${remoteMessage.data}")
         }
 
-        // TODO Step 3.6 check messages for notification and call sendNotification
         // Check if message contains a notification payload.
+        remoteMessage?.notification?.let {
+            Log.d(TAG, "Message Notification Body: ${it.body}")
+            sendNotification(it.body!!)
+        }
 
     }
-    // [END receive_message]
 
     override fun onNewToken(token: String?) {
         Log.d(TAG, "Refreshed token: $token")
